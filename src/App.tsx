@@ -2,6 +2,9 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { makeStyles } from "@material-ui/styles";
 
+import { usePomodoro } from "./contexts";
+import { ToHMS } from "./helpers";
+
 import "./flatly.bootstrap.min.css";
 import "./global.css";
 
@@ -17,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function App() {
   const styles = useStyles();
+  const { secondsLeft } = usePomodoro();
+
+  const [minutes, seconds] = ToHMS(secondsLeft);
   return (
     <div className={styles.root}>
       <Container>
