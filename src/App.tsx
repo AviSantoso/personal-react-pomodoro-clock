@@ -1,11 +1,8 @@
 import React from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { makeStyles } from "@material-ui/styles";
 
-import { ArrowDownward, ArrowUpward } from "@material-ui/icons";
-
-import { usePomodoro } from "./contexts";
-import { PomodoroControls, BreakControls } from "./components";
+import { PomodoroControls, BreakControls, SessionControls } from "./components";
 
 import "./flatly.bootstrap.min.css";
 import "./global.css";
@@ -22,30 +19,20 @@ const useStyles = makeStyles((theme) => ({
 
 export default function App() {
   const styles = useStyles();
-  const { sessionLength } = usePomodoro();
   return (
     <div className={styles.root}>
       <Container>
-        <Row>
+        <Row className="mt-5">
           <Col>
             <h1>Pomodoro Clock</h1>
           </Col>
         </Row>
-        <Row>
-          <Col>
+        <Row className="mt-5">
+          <Col className="mx-3">
             <BreakControls />
           </Col>
-          <Col>
-            <h2>Session Length</h2>
-            <Row>
-              <Button>
-                <ArrowDownward />
-              </Button>
-              <Col>{sessionLength}</Col>
-              <Button>
-                <ArrowUpward />
-              </Button>
-            </Row>
+          <Col className="mx-3">
+            <SessionControls />
           </Col>
         </Row>
         <PomodoroControls />

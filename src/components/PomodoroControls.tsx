@@ -1,12 +1,10 @@
 import React from "react";
 
-import { Row, Col, Button } from "react-bootstrap";
+import { Row, Col, Button, ButtonGroup } from "react-bootstrap";
 
-import {
-  PlayCircleOutline,
-  PauseCircleOutlineOutlined,
-  RefreshOutlined
-} from "@material-ui/icons";
+import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
+import PauseCircleOutlineOutlinedIcon from "@material-ui/icons/PauseCircleOutlineOutlined";
+import RefreshOutlinedIcon from "@material-ui/icons/RefreshOutlined";
 
 import { usePomodoro } from "../contexts";
 import { ToHMS } from "../helpers";
@@ -16,7 +14,7 @@ export const PomodoroControls = () => {
   const { hours, minutes, seconds } = ToHMS(secondsLeft);
 
   return (
-    <Row>
+    <Row className="mt-5">
       <Col>
         <Row>
           <Col>
@@ -30,17 +28,19 @@ export const PomodoroControls = () => {
             </h3>
           </Col>
         </Row>
-        <Row>
+        <Row className="mt-3">
           <Col>
-            <Button>
-              <PlayCircleOutline />
-            </Button>
-            <Button>
-              <PauseCircleOutlineOutlined />
-            </Button>
-            <Button>
-              <RefreshOutlined />
-            </Button>
+            <ButtonGroup size="lg">
+              <Button variant="outline-primary" size="lg">
+                <PlayCircleOutlineIcon />
+              </Button>
+              <Button variant="outline-primary" size="lg">
+                <PauseCircleOutlineOutlinedIcon />
+              </Button>
+              <Button variant="outline-primary" size="lg">
+                <RefreshOutlinedIcon />
+              </Button>
+            </ButtonGroup>
           </Col>
         </Row>
       </Col>
