@@ -10,7 +10,7 @@ import { usePomodoro } from "../contexts";
 import { ToHMS } from "../helpers";
 
 export const PomodoroControls = () => {
-  const { secondsLeft } = usePomodoro();
+  const { secondsLeft, startTimer, stopTimer, resetTimer } = usePomodoro();
   const { hours, minutes, seconds } = ToHMS(secondsLeft);
 
   return (
@@ -31,13 +31,13 @@ export const PomodoroControls = () => {
         <Row className="mt-3">
           <Col>
             <ButtonGroup size="lg">
-              <Button variant="outline-primary" size="lg">
+              <Button variant="outline-primary" size="lg" onClick={startTimer}>
                 <PlayCircleOutlineIcon />
               </Button>
-              <Button variant="outline-primary" size="lg">
+              <Button variant="outline-primary" size="lg" onClick={stopTimer}>
                 <PauseCircleOutlineOutlinedIcon />
               </Button>
-              <Button variant="outline-primary" size="lg">
+              <Button variant="outline-primary" size="lg" onClick={resetTimer}>
                 <RefreshOutlinedIcon />
               </Button>
             </ButtonGroup>

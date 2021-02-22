@@ -19,12 +19,13 @@ export const PomodoroProvider: React.FunctionComponent = ({ children }) => {
   const [timer, setTimer] = React.useState<number | null>(null);
 
   const tick = () => {
+    console.log("TICK!");
     setSecondsLeft((p) => p - 1);
   };
 
   const startTimer = () => {
     setTimer((p) => {
-      if (timer === null) {
+      if (timer !== null) {
         return p;
       }
       return setInterval(tick, 1000);
