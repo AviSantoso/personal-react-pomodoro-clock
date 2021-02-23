@@ -16,72 +16,78 @@ export const PomodoroProvider: React.FunctionComponent = ({ children }) => {
     DEFAULT_POMODORO_CONTEXT.secondsLeft
   );
 
-  const [running, setRunning] = React.useState(
-    DEFAULT_POMODORO_CONTEXT.running
+  const [isStarted, setIsStarted] = React.useState(
+    DEFAULT_POMODORO_CONTEXT.isStarted
+  );
+
+  const [isBreak, setIsBreak] = React.useState(
+    DEFAULT_POMODORO_CONTEXT.isBreak
   );
 
   const [timer, setTimer] = React.useState<number>(-1);
 
   React.useEffect(() => {
-    if (!running) {
-      setSecondsLeft(sessionLength * 60);
-    }
-  }, [running, sessionLength]);
+    setSecondsLeft(isBreak ? breakLength * 60 : sessionLength * 60);
+  }, [isBreak, sessionLength, breakLength]);
 
   const tick = () => {
-    if (secondsLeft === 0) {
-      return;
-    }
-    setSecondsLeft((p) => p - 1);
+    setSecondsLeft((secondsLeft) => {
+      if (secondsLeft <= 0) {
+        setIsBreak((isBreak) => !isBreak);
+        return secondsLeft;
+      }
+      return secondsLeft - 1;
+    });
   };
 
   const startTimer = () => {
-    if (running) {
+    if (timer !== -1) {
       return;
     }
-    setTimer(setInterval(tick, 1000));
-    setRunning(true);
+    setTimer(setInterval(tick, 50));
+    setIsStarted(true);
   };
 
   const stopTimer = () => {
-    if (!running) {
+    if (timer === -1) {
       return;
     }
     clearInterval(timer);
     setTimer(-1);
-    setRunning(false);
   };
 
   const resetTimer = () => {
     stopTimer();
+    setIsStarted(DEFAULT_POMODORO_CONTEXT.isStarted);
+    setIsBreak(DEFAULT_POMODORO_CONTEXT.isBreak);
     setBreakLength(() => DEFAULT_POMODORO_CONTEXT.breakLength);
     setSessionLength(() => DEFAULT_POMODORO_CONTEXT.sessionLength);
     setSecondsLeft(() => DEFAULT_POMODORO_CONTEXT.secondsLeft);
   };
 
   const incrementBreak = () => {
-    if (running || breakLength === 60) {
+    if (isStarted || breakLength === 60) {
       return;
     }
     setBreakLength((p) => p + 1);
   };
 
   const decrementBreak = () => {
-    if (running || breakLength === 1) {
+    if (isStarted || breakLength === 1) {
       return;
     }
     setBreakLength((p) => p - 1);
   };
 
   const incrementSession = () => {
-    if (running || sessionLength === 60) {
+    if (isStarted || sessionLength === 60) {
       return;
     }
     setSessionLength((p) => p + 1);
   };
 
   const decrementSession = () => {
-    if (running || sessionLength === 1) {
+    if (isStarted || sessionLength === 1) {
       return;
     }
     setSessionLength((p) => p - 1);
@@ -91,7 +97,8 @@ export const PomodoroProvider: React.FunctionComponent = ({ children }) => {
     breakLength,
     sessionLength,
     secondsLeft,
-    running,
+    isStarted,
+    isBreak,
     startTimer,
     stopTimer,
     resetTimer,

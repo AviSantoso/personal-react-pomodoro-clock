@@ -11,7 +11,13 @@ import { toMS } from "../helpers";
 
 export const PomodoroControls = () => {
   const [started, setStarted] = React.useState(false);
-  const { secondsLeft, startTimer, stopTimer, resetTimer } = usePomodoro();
+  const {
+    secondsLeft,
+    startTimer,
+    stopTimer,
+    resetTimer,
+    isBreak
+  } = usePomodoro();
   const { minutes, seconds } = toMS(secondsLeft);
 
   const startStopTimer = () => {
@@ -28,7 +34,7 @@ export const PomodoroControls = () => {
       <Col>
         <Row>
           <Col>
-            <h2 id="timer-label">Session</h2>
+            <h2 id="timer-label">{isBreak ? "Break" : "Session"}</h2>
           </Col>
         </Row>
         <Row>

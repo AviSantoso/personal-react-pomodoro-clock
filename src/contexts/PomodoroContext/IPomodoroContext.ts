@@ -2,7 +2,8 @@ export interface IPomodoroContext {
   breakLength: number;
   sessionLength: number;
   secondsLeft: number;
-  running: boolean;
+  isStarted: boolean;
+  isBreak: boolean;
   startTimer: () => void;
   stopTimer: () => void;
   resetTimer: () => void;
