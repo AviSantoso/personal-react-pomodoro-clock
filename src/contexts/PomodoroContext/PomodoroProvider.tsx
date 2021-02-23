@@ -1,6 +1,7 @@
 import React from "react";
 
 import DEFAULT_POMODORO_CONTEXT from "./DefaultPomodoroContext";
+import IPomodoroContext from "./IPomodoroContext";
 import PomodoroContext from "./PomodoroContext";
 
 export const PomodoroProvider: React.FunctionComponent = ({ children }) => {
@@ -40,8 +41,10 @@ export const PomodoroProvider: React.FunctionComponent = ({ children }) => {
     });
   };
 
+  const isCountingDown = () => timer !== -1;
+
   const startTimer = () => {
-    if (timer !== -1) {
+    if (isCountingDown()) {
       return;
     }
     setTimer(setInterval(tick, 50));
@@ -49,7 +52,7 @@ export const PomodoroProvider: React.FunctionComponent = ({ children }) => {
   };
 
   const stopTimer = () => {
-    if (timer === -1) {
+    if (!isCountingDown()) {
       return;
     }
     clearInterval(timer);
@@ -66,39 +69,50 @@ export const PomodoroProvider: React.FunctionComponent = ({ children }) => {
   };
 
   const incrementBreak = () => {
-    if (isStarted || breakLength === 60) {
-      return;
-    }
-    setBreakLength((p) => p + 1);
+    setBreakLength((breakLength) => {
+      if (isStarted || breakLength === 60) {
+        return breakLength;
+      }
+      return breakLength + 1;
+    });
   };
 
   const decrementBreak = () => {
-    if (isStarted || breakLength === 1) {
-      return;
-    }
-    setBreakLength((p) => p - 1);
+    setBreakLength((breakLength) => {
+      if (isStarted || breakLength === 1) {
+        return breakLength;
+      }
+      return breakLength - 1;
+    });
   };
 
   const incrementSession = () => {
-    if (isStarted || sessionLength === 60) {
-      return;
-    }
-    setSessionLength((p) => p + 1);
+    setSessionLength((sessionLength) => {
+      if (isStarted || sessionLength === 60) {
+        return sessionLength;
+      }
+      return sessionLength + 1;
+    });
   };
 
   const decrementSession = () => {
-    if (isStarted || sessionLength === 1) {
-      return;
-    }
-    setSessionLength((p) => p - 1);
+    setSessionLength((sessionLength) => {
+      if (isStarted || sessionLength === 1) {
+        return sessionLength;
+      }
+      return sessionLength - 1;
+    });
   };
 
-  const pomodoroContext = {
+  const pomodoroContext: IPomodoroContext = {
     breakLength,
     sessionLength,
     secondsLeft,
     isStarted,
     isBreak,
+    get isCountingDown() {
+      return isCountingDown();
+    },
     startTimer,
     stopTimer,
     resetTimer,

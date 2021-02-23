@@ -10,24 +10,44 @@ import { usePomodoro } from "../contexts";
 import { toMS } from "../helpers";
 
 export const PomodoroControls = () => {
-  const [started, setStarted] = React.useState(false);
   const {
     secondsLeft,
     startTimer,
     stopTimer,
     resetTimer,
+    isCountingDown,
     isBreak
   } = usePomodoro();
+
+  const audioRef = React.useRef<HTMLAudioElement>();
+
   const { minutes, seconds } = toMS(secondsLeft);
 
   const startStopTimer = () => {
-    if (started) {
+    if (isCountingDown) {
       stopTimer();
     } else {
       startTimer();
     }
-    setStarted((p) => !p);
   };
+
+  const handleReset = () => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio.pause();
+      audio.currentTime = 0;
+    }
+    resetTimer();
+  };
+
+  React.useEffect(() => {
+    if (secondsLeft === 0) {
+      const audio = audioRef.current;
+      if (audio) {
+        audio.play();
+      }
+    }
+  }, [secondsLeft]);
 
   return (
     <Row className="mt-5">
@@ -40,9 +60,14 @@ export const PomodoroControls = () => {
         <Row>
           <Col>
             <h3 id="time-left">
-              {/* {hours}:{minutes}:{seconds} */}
               {minutes}:{seconds}
             </h3>
+            <audio
+              id="beep"
+              preload="auto"
+              ref={(audio) => (audioRef.current = audio!)}
+              src="https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav"
+            />
           </Col>
         </Row>
         <Row className="mt-3">
@@ -57,12 +82,9 @@ export const PomodoroControls = () => {
                 <PlayCircleOutlineIcon />
                 <PauseCircleOutlineOutlinedIcon />
               </Button>
-              {/* <Button onClick={stopTimer} variant="outline-primary" size="lg">
-                <PauseCircleOutlineOutlinedIcon />
-              </Button> */}
               <Button
                 id="reset"
-                onClick={resetTimer}
+                onClick={handleReset}
                 variant="outline-primary"
                 size="lg"
               >

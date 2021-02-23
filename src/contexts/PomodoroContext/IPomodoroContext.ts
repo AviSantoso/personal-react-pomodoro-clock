@@ -4,6 +4,7 @@ export interface IPomodoroContext {
   secondsLeft: number;
   isStarted: boolean;
   isBreak: boolean;
+  isCountingDown: boolean;
   startTimer: () => void;
   stopTimer: () => void;
   resetTimer: () => void;

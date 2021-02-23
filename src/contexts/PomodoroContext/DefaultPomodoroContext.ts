@@ -9,6 +9,7 @@ export const DEFAULT_POMODORO_CONTEXT: IPomodoroContext = {
   secondsLeft: 60 * DEFAULT_SESSION_LENGTH,
   isStarted: false,
   isBreak: false,
+  isCountingDown: false,
   startTimer: () => {},
   stopTimer: () => {},
   resetTimer: () => {},
