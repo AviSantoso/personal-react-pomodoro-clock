@@ -11,16 +11,28 @@ export const BreakControls = () => {
 
   return (
     <>
-      <h2>Break Length</h2>
+      <h2 id="break-label">Break Length</h2>
       <Row>
         <Col>
-          <Button variant="outline-primary" size="lg" onClick={decrementBreak}>
+          <Button
+            id="break-decrement"
+            onClick={decrementBreak}
+            variant="outline-primary"
+            size="lg"
+          >
             <ArrowDownwardIcon />
           </Button>
         </Col>
-        <Col>{breakLength}</Col>
         <Col>
-          <Button variant="outline-primary" size="lg" onClick={incrementBreak}>
+          <span id="break-length">{breakLength}</span>
+        </Col>
+        <Col>
+          <Button
+            id="break-increment"
+            onClick={incrementBreak}
+            variant="outline-primary"
+            size="lg"
+          >
             <ArrowUpwardIcon />
           </Button>
         </Col>

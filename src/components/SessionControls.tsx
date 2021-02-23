@@ -11,13 +11,25 @@ export const SessionControls = () => {
 
   return (
     <>
-      <h2>Session Length</h2>
+      <h2 id="session-label">Session Length</h2>
       <Row>
-        <Button variant="outline-primary" size="lg" onClick={decrementSession}>
+        <Button
+          id="session-decrement"
+          onClick={decrementSession}
+          variant="outline-primary"
+          size="lg"
+        >
           <ArrowDownwardIcon />
         </Button>
-        <Col>{sessionLength}</Col>
-        <Button variant="outline-primary" size="lg" onClick={incrementSession}>
+        <Col>
+          <span id="session-length">{sessionLength}</span>
+        </Col>
+        <Button
+          id="session-increment"
+          onClick={incrementSession}
+          variant="outline-primary"
+          size="lg"
+        >
           <ArrowUpwardIcon />
         </Button>
       </Row>
