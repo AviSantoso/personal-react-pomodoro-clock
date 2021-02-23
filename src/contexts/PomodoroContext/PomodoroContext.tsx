@@ -1,10 +1,10 @@
 import React from "react";
 
-import defaultPomodoroContext from "./defaultPomodoroContext";
+import DEFAULT_POMODORO_CONTEXT from "./DefaultPomodoroContext";
 import IPomodoroContext from "./IPomodoroContext";
 
 export const PomodoroContext = React.createContext<IPomodoroContext>(
-  defaultPomodoroContext
+  DEFAULT_POMODORO_CONTEXT
 );
 
 export default PomodoroContext;
